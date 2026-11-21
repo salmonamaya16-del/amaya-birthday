@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amaya's 17th Birthday</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #101010;
+  color: white;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+.container {
+  padding: 35px 20px;
+  max-width: 750px;
+  margin: auto;
+}
+
+.small {
+  color: #c0c0c0;
+  letter-spacing: 5px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 34px;
+  font-weight: normal;
+  letter-spacing: 2px;
+}
+
+.envelope {
+  position: relative;
+  width: 280px;
+  height: 180px;
+  margin: 80px auto 45px;
+  background: #d7193f;
+  cursor: pointer;
+  perspective: 800px;
+  box-shadow: 0 15px 40px #000;
+}
+
+.back {
+  position: absolute;
+  inset: 0;
+  background: #a80e2d;
+}
+
+.letter {
+  position: absolute;
+  width: 90%;
+  height: 155px;
+  left: 5%;
+  top: 5px;
+  background: #f7f5f1;
+  color: #171717;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 1s ease;
+  z-index: 2;
+}
+
+.letter h2 {
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.letter p {
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+
+.flap {
+  position: absolute;
+  inset: 0;
+  background: #ed2349;
+  clip-path: polygon(0 0, 100% 0, 50% 65%);
+  transform-origin: top;
+  transition: transform 0.8s ease;
+  z-index: 4;
+}
+
+.front {
+  position: absolute;
+  inset: 0;
+  background: #c71036;
+  clip-path: polygon(0 0, 50% 55%, 100% 0,
+                     100% 100%, 0 100%);
+  z-index: 3;
+}
+
+.seal {
+  position: absolute;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #eeeeee, #858585);
+  color: #222;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.open .letter {
+  transform: translateY(-110px);
+}
+
+.instruction {
+  color: #c0c0c0;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+#message {
+  display: none;
+  margin: 35px auto;
+  color: #eeeeee;
+  animation: appear 1s ease;
+}
+
+#message h2 {
+  color: #e52a4d;
+  font-size: 32px;
+  font-weight: normal;
+}
+
+.date {
+  color: silver;
+  font-size: 18px;
+  letter-spacing: 3px;
+  margin-top: 30px;
+}
+
+.description {
+  line-height: 1.9;
+  max-width: 470px;
+  margin: 25px auto;
+  font-size: 16px;
+  color: #dedede;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.countdown-section {
+  margin: 45px auto;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 25px auto;
+}
+
+.time-box {
+  background: #191919;
+  border: 1px solid #d7193f;
+  width: 85px;
+  padding: 17px 5px;
+}
+
+.time-box span {
+  display: block;
+  color: #e52a4d;
+  font-size: 29px;
+}
+
+.time-box small {
+  display: block;
+  color: silver;
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin-top: 8px;
+}
+
+.countdown-note {
+  color: silver;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.details-section {
+  margin: 55px auto;
+  max-width: 500px;
+}
+
+.details-section h2 {
+  color: #e52a4d;
+  font-size: 27px;
+  font-weight: normal;
+  margin-bottom: 30px;
+}
+
+.detail-card {
+  background: #191919;
+  border: 1px solid #555;
+  border-left: 3px solid #d7193f;
+  padding: 18px;
+  margin: 13px 0;
+}
+
+.detail-card span {
+  color: #c0c0c0;
+  letter-spacing: 3px;
+  font-size: 10px;
+}
+
+.detail-card p {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* RSVP SECTION */
+.rsvp-section {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 30px 20px;
+    background: #191919;
+    border: 1px solid #777;
+    border-top: 3px solid #d7193f;
+    text-align: center;
+}
+
+.rsvp-section h2 {
+    color: #e52a4d;
+    font-size: 27px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.rsvp-section p {
+    color: #ddd;
+    line-height: 1.6;
+}
+
+.rsvp-section label {
+    display: block;
+    color: #c0c0c0;
+    letter-spacing: 2px;
+    font-size: 11px;
+    text-align: left;
+    margin-top: 25px;
+}
+
+.rsvp-section input,
+.rsvp-section select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    margin-top: 10px;
+    background: #292929;
+    color: white;
+    border: 1px solid #777;
+    font-size: 14px;
+}
+
+.rsvp-section button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    background: #d7193f;
+    color: white;
+    border: none;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <p class="small">A special delivery awaits</p>
+
+  <h1>You've Been Invited</h1>
+
+  <div class="envelope" id="envelope"
+       onclick="openLetter()">
+
+    <div class="back"></div>
+
+    <div class="letter">
+      <p>A LITTLE SURPRISE</p>
+      <h2>For You ♡</h2>
+      <p>WITH LOVE</p>
+    </div>
+
+    <div class="flap"></div>
+    <div class="front"></div>
+
+    <div class="seal">A</div>
+
+  </div>
+
+  <p class="instruction" id="instruction">
+    CLICK THE ENVELOPE TO OPEN
+  </p>
+
+  <div id="message">
+
+    <p class="small">YOU ARE CORDIALLY INVITED TO</p>
+
+    <h2>AMAYA'S 17TH BIRTHDAY</h2>
+
+    <h1>A Night to Remember</h1>
+
+    <p class="description">
+      You are cordially invited to celebrate a
+      special evening filled with good company,
+      unforgettable memories and beautiful moments.
+    </p>
+
+    <div class="date">
+      JANUARY 17, 2027
+    </div>
+
+<div class="countdown-section">
+
+  <p class="small">THE CELEBRATION BEGINS IN</p>
+
+  <div class="countdown">
+
+    <div class="time-box">
+      <span id="days">00</span>
+      <small>DAYS</small>
+    </div>
+
+    <div class="time-box">
+      <span id="hours">00</span>
+      <small>HOURS</small>
+    </div>
+
+    <div class="time-box">
+      <span id="minutes">00</span>
+      <small>MINUTES</small>
+    </div>
+
+    <div class="time-box">
+      <span id="seconds">00</span>
+      <small>SECONDS</small>
+    </div>
+
+  </div>
+
+  <p class="countdown-note">
+    Counting down to a night to remember ♡
+  </p>
+
+<div class="details-section">
+
+  <p class="small">THE EVENING DETAILS</p>
+
+  <h2>A Night to Remember</h2>
+
+  <div class="detail-card">
+    <span>DATE</span>
+    <p>Sunday, January 17, 2027</p>
+  </div>
+
+  <div class="detail-card">
+    <span>TIME</span>
+    <p>6:30 PM – 8:00 PM</p>
+  </div>
+
+  <div class="detail-card">
+    <span>LOCATION</span>
+    <p>Venue to be announced</p>
+  </div>
+
+  <div class="detail-card">
+    <span>DRESS CODE</span>
+    <p>ALL BLACK 🖤</p> 
+</div>
+
+</div>
+
+    <p class="small">SAVE THE DATE ♡</p>
+
+  </div>
+
+</div>
+
+<script>
+
+function openLetter() {
+
+  const envelope = document.getElementById("envelope");
+
+  if (envelope.classList.contains("open")) return;
+
+  envelope.classList.add("open");
+
+  document.getElementById("instruction").style.display = "none";
+
+  setTimeout(() => {
+    document.getElementById("message").style.display = "block";
+  }, 900);
+
+}
+
+const birthdayDate = new Date("January 17, 2027 18:00:00").getTime();
+
+function updateCountdown() {
+
+  const now = new Date().getTime();
+  const difference = birthdayDate - now;
+
+  if (difference <= 0) {
+    document.querySelector(".countdown").innerHTML =
+      "THE CELEBRATION IS HERE! ❤️";
+    return;
+  }
+
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((difference / (1000 * 60)) % 60);
+  const seconds = Math.floor((difference / 1000) % 60);
+
+  document.getElementById("days").textContent =
+    String(days).padStart(2, "0");
+
+  document.getElementById("hours").textContent =
+    String(hours).padStart(2, "0");
+
+  document.getElementById("minutes").textContent =
+    String(minutes).padStart(2, "0");
+
+  document.getElementById("seconds").textContent =
+    String(seconds).padStart(2, "0");
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+</script>
+
+<!-- RSVP SECTION -->
+<div class="rsvp-section">
+    <p class="small">KINDLY RESPOND</p>
+    <h2>Will You Be Joining Us?</h2>
+    <p>We would love to celebrate this special evening with you.</p>
+
+    <form
+        action="https://docs.google.com/forms/d/e/1FAIpQLSd48luiZxgwyRtiT0WBzmTfDEgt7Kppj0G26NTnsAAaaxAgLg/formResponse"
+        method="POST"
+        target="_blank"
+    >
+
+        <label for="guestName">YOUR NAME</label>
+
+        <input
+            type="text"
+            id="guestName"
+            name="entry.1294377011"
+            placeholder="Enter your full name"
+            required
+        >
+
+        <label for="attendance">WILL YOU BE ATTENDING?</label>
+
+        <select
+            id="attendance"
+            name="entry.554209878"
+            required
+        >
+            <option value="">Choose your response</option>
+            <option value="Yes, I'll be there!">Yes, I'll be there!</option>
+            <option value="Sorry, I can't make it.">Sorry, I can't make it.</option>
+        </select>
+
+        <button type="submit">SUBMIT RSVP</button>
+
+    </form>
+</div>
+
+</body>
+</html>
+
